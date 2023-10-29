@@ -1,10 +1,9 @@
 package com.api.initialspring.controllers;
 
-import com.api.initialspring.dtos.ParkingSpotDto;
+import com.api.initialspring.dtos.ParkingSpotDTO;
 import com.api.initialspring.models.ParkingSpotModel;
 import com.api.initialspring.services.ParkingSpotService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,16 +21,15 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/parking-spot")
+@RequestMapping("/vaga-estacionamento")
 public class ParkingSpotController {
     final ParkingSpotService parkingSpotService;
-
     public ParkingSpotController(ParkingSpotService parkingSpotService) {
         this.parkingSpotService = parkingSpotService;
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto) {
+    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDTO parkingSpotDto) {
 
         if (parkingSpotService.existsByLicensePlateCar(parkingSpotDto.getLicensePlateCar())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("conflict: License Plate car is Already in use!");
@@ -76,7 +74,7 @@ public class ParkingSpotController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateParkingSpot(@PathVariable(value = "id") UUID id, @RequestBody @Valid ParkingSpotDto parkingSpotDto) {
+    public ResponseEntity<Object> updateParkingSpot(@PathVariable(value = "id") UUID id, @RequestBody @Valid ParkingSpotDTO parkingSpotDto) {
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
         if (!parkingSpotModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking spot not found");

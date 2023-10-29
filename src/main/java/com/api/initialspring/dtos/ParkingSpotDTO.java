@@ -3,8 +3,11 @@ package com.api.initialspring.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.NoArgsConstructor;
 
-public class ParkingSpotDto {
+
+@NoArgsConstructor
+public class ParkingSpotDTO {
 
     @NotBlank
     private String parkingSpotNumber;
@@ -17,12 +20,24 @@ public class ParkingSpotDto {
     private String modelCar;
     @NotBlank
     private String colorCar;
+
     @NotBlank
     private String responsibleName;
     @NotBlank
     private String apartment;
     @NotBlank
     private String block;
+
+    public ParkingSpotDTO(String parkingSpotNumber, String licensePlateCar, String brandCar, String modelCar, String colorCar, String responsibleName, String apartment, String block) {
+        this.parkingSpotNumber = parkingSpotNumber;
+        this.licensePlateCar = licensePlateCar;
+        this.brandCar = brandCar;
+        this.modelCar = modelCar;
+        this.colorCar = colorCar;
+        this.responsibleName = responsibleName;
+        this.apartment = apartment;
+        this.block = block;
+    }
 
     public String getParkingSpotNumber() {
         return parkingSpotNumber;
@@ -63,6 +78,7 @@ public class ParkingSpotDto {
     public void setColorCar(String colorCar) {
         this.colorCar = colorCar;
     }
+
 
     public String getResponsibleName() {
         return responsibleName;

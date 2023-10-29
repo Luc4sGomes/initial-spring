@@ -1,5 +1,6 @@
 package com.api.initialspring.models;
 
+import com.api.initialspring.dtos.ParkingSpotDTO;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -32,6 +33,14 @@ public class ParkingSpotModel implements Serializable{
     private String apartment;
     @Column(nullable = false, length = 30)
     private String block;
+
+    public ParkingSpotModel(ParkingSpotDTO data) {
+    }
+
+    public ParkingSpotModel() {
+    }
+
+
 
     public static long getSeriaVersionUID() {
         return seriaVersionUID;
@@ -116,4 +125,6 @@ public class ParkingSpotModel implements Serializable{
     public void setBlock(String block) {
         this.block = block;
     }
+
+
 }

@@ -48,4 +48,8 @@ public class ParkingSpotService {
     public void delete(ParkingSpotModel parkingSpotModel) {
          parkingSpotRepository.delete(parkingSpotModel);
     }
+
+    public List<ParkingSpotModel> getAllParkingSpots() {
+        return parkingSpotRepository.findAll();
+    }
 }
