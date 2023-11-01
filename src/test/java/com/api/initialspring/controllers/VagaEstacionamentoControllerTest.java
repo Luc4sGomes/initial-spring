@@ -1,7 +1,7 @@
 package com.api.initialspring.controllers;
 
-import com.api.initialspring.models.ParkingSpotModel;
-import com.api.initialspring.services.ParkingSpotService;
+import com.api.initialspring.models.VagaEstacionamentoModel;
+import com.api.initialspring.services.VagaEstacionamentoService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +20,19 @@ import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(ParkingSpotController.class)
-class ParkingSpotControllerTest {
+@WebMvcTest(VagaEstacionamentoController.class)
+class VagaEstacionamentoControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private ParkingSpotService parkingSpotService;
+    private VagaEstacionamentoService vagaEstacionamentoService;
 
 
     @Test
     void testSaveParkingSpotSuccess() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/vaga-estacionamento")
+        mvc.perform(MockMvcRequestBuilders.post("/vaga-estacionamento/criar-vaga")
                         .contentType("application/json")
                         .content("{\"parkingSpotNumber\":\"1234\",\"licensePlateCar\":\"ABC123\",\"brandCar\":\"Ford\",\"modelCar\":\"Focus\",\"colorCar\":\"Blue\",\"responsibleName\":\"John Doe\",\"apartment\":\"A101\",\"block\":\"A\"}"))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
@@ -41,34 +41,34 @@ class ParkingSpotControllerTest {
 
     @Test
     void getAllParkingSpots() throws Exception {
-        ParkingSpotModel parkingSpot = new ParkingSpotModel();
-        parkingSpot.setId(UUID.randomUUID());
-        parkingSpot.setParkingSpotNumber("123");
+        VagaEstacionamentoModel vagaEstacionamento = new VagaEstacionamentoModel();
+        vagaEstacionamento.setId(UUID.randomUUID());
+        vagaEstacionamento.setParkingSpotNumber("123");
 
-        Page<ParkingSpotModel> parkingSpotPage = new PageImpl<>(Collections.singletonList(parkingSpot));
+        Page<VagaEstacionamentoModel> vagaEstacionamentoPage = new PageImpl<>(Collections.singletonList(vagaEstacionamento));
 
-        when(parkingSpotService.findAll(Mockito.any())).thenReturn(parkingSpotPage);
+        when(vagaEstacionamentoService.findAll(Mockito.any())).thenReturn(vagaEstacionamentoPage);
 
-        mvc.perform(MockMvcRequestBuilders.get("/vaga-estacionamento"))
+        mvc.perform(MockMvcRequestBuilders.get("/vaga-estacionamento/obter-vagas"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].parkingSpotNumber").value("123"));
     }
 
     @Test
     void testGetOneParkingSpotFound() throws Exception {
-        ParkingSpotModel parkingSpot = new ParkingSpotModel();
-        parkingSpot.setId(UUID.randomUUID());
+        VagaEstacionamentoModel vagaEstacionamento = new VagaEstacionamentoModel();
+        vagaEstacionamento.setId(UUID.randomUUID());
 
-        when(parkingSpotService.findById(parkingSpot.getId())).thenReturn(Optional.of(parkingSpot));
+        when(vagaEstacionamentoService.findById(vagaEstacionamento.getId())).thenReturn(Optional.of(vagaEstacionamento));
 
-        mvc.perform(MockMvcRequestBuilders.get("/vaga-estacionamento/{id}", parkingSpot.getId()))
+        mvc.perform(MockMvcRequestBuilders.get("/vaga-estacionamento/{id}", vagaEstacionamento.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(parkingSpot.getId().toString()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(vagaEstacionamento.getId().toString()));
     }
 
     @Test
     void testGetOneParkingSpotNotFound() throws Exception {
-        when(parkingSpotService.findById(Mockito.any())).thenReturn(Optional.empty());
+        when(vagaEstacionamentoService.findById(Mockito.any())).thenReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders.get("/vaga-estacionamento/{id}", UUID.randomUUID()))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -78,22 +78,22 @@ class ParkingSpotControllerTest {
 
     @Test
     void testDeleteParkingSpotFound() throws Exception {
-        ParkingSpotModel parkingSpot = new ParkingSpotModel();
-        UUID parkingSpotId = UUID.randomUUID();
-        parkingSpot.setId(parkingSpotId);
+        VagaEstacionamentoModel vagaEstacionamento = new VagaEstacionamentoModel();
+        UUID vagaEstacionamentoId = UUID.randomUUID();
+        vagaEstacionamento.setId(vagaEstacionamentoId);
 
-        when(parkingSpotService.findById(parkingSpotId)).thenReturn(Optional.of(parkingSpot));
+        when(vagaEstacionamentoService.findById(vagaEstacionamentoId)).thenReturn(Optional.of(vagaEstacionamento));
 
-        mvc.perform(MockMvcRequestBuilders.delete("/vaga-estacionamento/{id}", parkingSpotId))
+        mvc.perform(MockMvcRequestBuilders.delete("/vaga-estacionamento/{id}", vagaEstacionamentoId))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(parkingSpotId.toString()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(vagaEstacionamentoId.toString()));
     }
 
     @Test
     void testDeleteParkingSpotNotFound() throws Exception {
         UUID nonExistentId = UUID.randomUUID();
 
-        when(parkingSpotService.findById(nonExistentId)).thenReturn(Optional.empty());
+        when(vagaEstacionamentoService.findById(nonExistentId)).thenReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders.delete("/vaga-estacionamento/{id}", nonExistentId))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -102,13 +102,13 @@ class ParkingSpotControllerTest {
 
     @Test
     void testUpdateParkingSpotFound() throws Exception {
-        ParkingSpotModel parkingSpot = new ParkingSpotModel();
-        UUID parkingSpotId = UUID.randomUUID();
-        parkingSpot.setId(parkingSpotId);
+        VagaEstacionamentoModel vagaEstacionamento = new VagaEstacionamentoModel();
+        UUID vagaEstacionamentoId = UUID.randomUUID();
+        vagaEstacionamento.setId(vagaEstacionamentoId);
 
-        when(parkingSpotService.findById(parkingSpotId)).thenReturn(Optional.of(parkingSpot));
+        when(vagaEstacionamentoService.findById(vagaEstacionamentoId)).thenReturn(Optional.of(vagaEstacionamento));
 
-        mvc.perform(MockMvcRequestBuilders.put("/vaga-estacionamento/{id}", parkingSpotId)
+        mvc.perform(MockMvcRequestBuilders.put("/vaga-estacionamento/{id}", vagaEstacionamentoId)
                         .contentType("application/json")
                         .content("{\"parkingSpotNumber\":\"1234\",\"licensePlateCar\":\"XYZ123\",\"brandCar\":\"Ford\",\"modelCar\":\"Focus\",\"colorCar\":\"Blue\",\"responsibleName\":\"John Doe\",\"apartment\":\"A101\",\"block\":\"A\"}"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -118,7 +118,7 @@ class ParkingSpotControllerTest {
     void testUpdateParkingSpotNotFound() throws Exception {
         UUID nonExistentId = UUID.randomUUID();
 
-        when(parkingSpotService.findById(nonExistentId)).thenReturn(Optional.empty());
+        when(vagaEstacionamentoService.findById(nonExistentId)).thenReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders.put("/vaga-estacionamento/{id}", nonExistentId)
                         .contentType("application/json")

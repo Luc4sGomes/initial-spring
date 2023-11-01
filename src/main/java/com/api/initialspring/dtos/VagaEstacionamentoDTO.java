@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 @NoArgsConstructor
-public class ParkingSpotDTO {
+public class VagaEstacionamentoDTO {
 
     @NotBlank
     private String parkingSpotNumber;
@@ -28,7 +28,7 @@ public class ParkingSpotDTO {
     @NotBlank
     private String block;
 
-    public ParkingSpotDTO(String parkingSpotNumber, String licensePlateCar, String brandCar, String modelCar, String colorCar, String responsibleName, String apartment, String block) {
+    public VagaEstacionamentoDTO(String parkingSpotNumber, String licensePlateCar, String brandCar, String modelCar, String colorCar, String responsibleName, String apartment, String block) {
         this.parkingSpotNumber = parkingSpotNumber;
         this.licensePlateCar = licensePlateCar;
         this.brandCar = brandCar;

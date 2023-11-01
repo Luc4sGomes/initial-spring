@@ -15,7 +15,7 @@ public class InitialSpringApplication {
 
 	@GetMapping("/")
 	public String HelloWorld() {
-		return "Lucas Gomes";
+		return "initialize Apllication";
 	}
 
 }
